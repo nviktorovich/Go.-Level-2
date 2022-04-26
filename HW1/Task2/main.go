@@ -1,26 +1,25 @@
-// Дополните функцию из п.1 возвратом собственной ошибки в случае возникновения панической ситуации. 
-// Собственная ошибка должна хранить время обнаружения панической ситуации. 
+// Дополните функцию из п.1 возвратом собственной ошибки в случае возникновения панической ситуации.
+// Собственная ошибка должна хранить время обнаружения панической ситуации.
 // Критерием успешного выполнения задания является наличие обработки созданной ошибки в функции main и вывод ее состояния в консоль
-
 
 package main
 
-import(
+import (
 	"errors"
 	"fmt"
-	"log" 
+	"log"
 	"runtime/debug"
 )
 
-type ErrorWithTrace struct { 
-	text string
+type ErrorWithTrace struct {
+	text  string
 	trace string
 }
 
-func New(text string) error { 
+func New(text string) error {
 	return &ErrorWithTrace{
-		text: text,
-		trace: string(debug.Stack()), 
+		text:  text,
+		trace: string(debug.Stack()),
 	}
 }
 
@@ -29,17 +28,15 @@ func (e *ErrorWithTrace) Error() string {
 }
 
 func main() {
-	
+
 	defer fmt.Println("end of pogram")
 	defer func() {
-     if rcvr := recover(); rcvr != nil {
-        fmt.Println("recovered", rcvr)
-        err := errors.New("Self error")
-        log.Println(err)
-     }
+		if rcvr := recover(); rcvr != nil {
+			fmt.Println("recovered", rcvr)
+			err := errors.New("Self error")
+			log.Println(err)
+		}
 	}()
-
-	
 
 	var s []int = []int{1, 2, 3, 4, 5}
 	var userIdx int
@@ -47,10 +44,10 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	
+
 	fmt.Println(GetNumberFromSliceToIndex(userIdx, s))
 }
 
-func GetNumberFromSliceToIndex(idx int, s []int) int{
+func GetNumberFromSliceToIndex(idx int, s []int) int {
 	return s[idx]
 }
